@@ -1,0 +1,16 @@
+#!/bin/bash
+#SBATCH -J JoJoGAN
+#SBATCH -o /home/bortoletti/out/jojo_output_%j.txt
+#SBATCH -e /home/bortoletti/out/jojo_errors_%j.txt
+#SBATCH -t 1-23:30:00
+#SBATCH -n 1
+#SBATCH -p allgroups
+#SBATCH --mem 32G
+#SBATCH --gres=gpu:rtx
+
+cd $bortoletti
+cd JoJoGAN
+
+srun singularity exec --nv /home/bortoletti/jojogan-container.sif activate jojo
+
+srun singularity exec --nv /home/bortoletti/jojogan-container.sif python run-ubuntu.py 
