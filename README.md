@@ -1,6 +1,8 @@
 # Windows Installation Tutorial
 **(The JoJoGAN code will not be updated)**
 
+## Run JoJoGAN locally
+
 Small fixes compared to [JoJoGAN-Training-Windows](https://github.com/bycloudai/JoJoGAN-Training-Windows).
 
 Using [JoJoGAN-Training-Windows](https://github.com/bycloudai/JoJoGAN-Training-Windows) guide on NVIDIA RTX 2060 after running 
@@ -89,6 +91,83 @@ Type "help", "copyright", "credits" or "license" for more information.
 ```
 
 If there is an error than contains ```torch\utils\cpp_extension.py:237: userwarning: error checking compiler version for cl```, make sure that the Path "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\Hostx64\x64" includes a "cl.exe" file otherwise search in the folder "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin" for the right one.
+
+
+
+### Run JoJoGAN
+
+Activate jojo env and launch jupyter-notebook.
+Clone this repository and copy [run-local.py](https://github.com/bortoletti-giorgia/JoJoGAN-Windows/blob/main/extra/run-local.ipynb) created from [https://github.com/prodramp/DeepWorks/tree/main/JoJoGAN](https://github.com/prodramp/DeepWorks/tree/main/JoJoGAN) in the main folder.
+Run the code step-by-step.
+
+
+## Run JoJoGAN in Cluster DEI of University of Padua
+
+If you don’t have at least of 12 GB in your GPU and it’s not RTX 3090 or Tesla V100, you can run the code in [SLURM CLUSTER DEI](https://clusterdeiguide.readthedocs.io/en/latest/index.html).
+
+Requirements to access SLURM:
+* Windows 11
+* An account DEI: ask for it here https://www.dei.unipd.it/helpdesk/index.php
+* At least 20 GB in your workspace
+* WinSCP with PuTTY
+
+Requirements to create the Singularity Container:
+* Ubuntu
+* Singularity
+
+### Create Singularity Container
+
+For running your code in SLURM, you need to create a Singularity Container.
+I created the container in Ubuntu because it requires fewer applications and has fewer conflicts than Windows but Singularity can also be installed on Windows and produces the same results.
+
+Create the container from the Singularity Definition file [singularity-container.def](https://github.com/bortoletti-giorgia/JoJoGAN-Windows/blob/main/extra/singularity-container.def).
+
+Open Command Prompt and write: ```sudo singularity build singularity-container.sif singularity-container.def```
+
+If you want to modify something you can run: ```singularity shell singularity-container.sif```.
+
+The singularity-container.sif container contains:
+* Ubuntu 18.04
+* CUDA 11.1 with its location saved in the PATH
+* Ninja package
+* Anaconda 2020
+* An environment Anaconda called *jojo* with:
+    * Python 3.7
+    * ```pip install torch==1.7.1+cu110 torchvision==0.8.2+cu110 torchaudio==0.7.2 -f https://download.pytorch.org/whl/torch_stable.html ```
+    * ```pip install cmake```
+    * ```pip install dlib==19.20 tqdm gdown scikit-learn==0.22 scipy lpips opencv-python wandb mat-plotlib scikit-image pybind11 ninja```
+    * ```conda install -c conda-forge ffmpeg```
+
+### Run on Cluster DEI
+
+Login to Windows 11 and download [main.job](https://github.com/bortoletti-giorgia/JoJoGAN-Windows/blob/main/extra/run-remote.job). Be careful to rename it as *main.job*.
+Download also [main.py](https://github.com/bortoletti-giorgia/JoJoGAN-Windows/blob/main/extra/main.py).
+
+Open WinSCP and connect to *login.dei.unipd.it* using SCP protocol.
+
+Your workspace structure should be (“bortoletti” is the example workspace):
+
+```
+    \home\bortoletti
+    ├── JoJoGAN				            # clone of https://github.com/mchong6/JoJoGAN 
+    ├── ├── inversion_codes		    # folder created in main.py
+    ├── ├── style_images			    # folder created in main.py
+    ├── ├── style_images_aligned	# folder created in main.py
+    ├── ├── models				        # folder created in main.py
+    ├── ├── results				        # folder created in main.py
+    ├── ├──  main.py			        # main code to run JoJoGAN
+
+    ├── out				                # folder with TXT file with errors and shell output of main.job 
+    │   main.job                  # JOB file for running JoJoGAN
+    │   singularity-container.sif # Singularity container for executing the job file
+```
+
+
+Open PuTTY and write: ```sbatch main.job```. Now 
+At the end you can find in folder:
+* *./out*: one TXT file with a list of errors and one TXT file with output of the job;
+*	*/JoJoGAN/results*: images resulted from main.py.
+
 
 
 
