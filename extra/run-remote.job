@@ -13,4 +13,4 @@ cd JoJoGAN
 
 srun singularity exec --nv /home/bortoletti/jojogan-container.sif activate jojo
 
-srun singularity exec --nv /home/bortoletti/jojogan-container.sif python run-ubuntu.py 
+srun singularity exec --nv /home/bortoletti/jojogan-container.sif python main.py 
