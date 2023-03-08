@@ -101,6 +101,19 @@ def display_image(image, size=None, mode='nearest', unnorm=False, title=''):
     plt.axis('off')
     plt.imshow(image)
 
+def get_image(image, size=None, mode='nearest', unnorm=False, title=''):
+    # image is [3,h,w] or [1,3,h,w] tensor [0,1]
+    if not isinstance(image, torch.Tensor):
+        image = transforms.ToTensor()(image).unsqueeze(0)
+    if image.is_cuda:
+        image = image.cpu()
+    if size is not None and image.size(-1) != size:
+        image = F.interpolate(image, size=(size,size), mode=mode)
+    if image.dim() == 4:
+        image = image[0]
+    image = image.permute(1, 2, 0).detach().numpy()
+    return image
+
 def get_landmark(filepath, predictor):
     """get landmark with dlib
     :return: np.array shape=(68, 2)

@@ -141,7 +141,7 @@ The singularity-container.sif container contains:
 ### Run on Cluster DEI
 
 Login to Windows 11 and download [main.job](https://github.com/bortoletti-giorgia/JoJoGAN-Windows/blob/main/extra/run-remote.job). Be careful to rename it as *main.job*.
-Download also [main.py](https://github.com/bortoletti-giorgia/JoJoGAN-Windows/blob/main/extra/main.py).
+Download also [main.py](https://github.com/bortoletti-giorgia/JoJoGAN-Windows/blob/main/extra/main.py) if you want to run JoJoGAN with pretrained model or [main-create-own-style.py](https://github.com/bortoletti-giorgia/JoJoGAN-Windows/blob/main/extra/main-create-own-style.py) if you want to create a model with your style references. Both of the latter codes require arguments to their invocation. Check *main.job* to see if they are present with the ones you want.
 
 Open WinSCP and connect to *login.dei.unipd.it* using SCP protocol.
 
@@ -149,17 +149,18 @@ Your workspace structure should be (“bortoletti” is the example workspace):
 
 ```
     \home\bortoletti
-    ├── JoJoGAN				            # clone of https://github.com/mchong6/JoJoGAN 
-    ├── ├── inversion_codes		    # folder created in main.py
-    ├── ├── style_images			    # folder created in main.py
-    ├── ├── style_images_aligned	# folder created in main.py
-    ├── ├── models				        # folder created in main.py
-    ├── ├── results				        # folder created in main.py
-    ├── ├──  main.py			        # main code to run JoJoGAN
+    ├── JoJoGAN                           # clone of https://github.com/mchong6/JoJoGAN 
+    ├── ├── inversion_codes               # folder created after execution of main.py
+    ├── ├── style_images                  # folder created after execution of main.py
+    ├── ├── style_images_aligned          # folder created after execution of main.py
+    ├── ├── models                        # folder created after execution of main.py
+    ├── ├── results                       # folder created after execution of main.py
+    ├── ├──  main.py                      # main code to run JoJoGAN with pretrained model
+    ├── ├──  main-create-own-style.py     # main code to create a model with your style images 
 
-    ├── out				                # folder with TXT file with errors and shell output of main.job 
-    │   main.job                  # JOB file for running JoJoGAN
-    │   singularity-container.sif # Singularity container for executing the job file
+    ├── out                               # folder with TXT file with errors and shell output of main.job 
+    │   main.job                          # JOB file for running JoJoGAN 
+    │   singularity-container.sif         # Singularity container for executing the job file
 ```
 
 

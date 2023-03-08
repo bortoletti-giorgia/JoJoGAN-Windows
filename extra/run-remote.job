@@ -13,4 +13,9 @@ cd JoJoGAN
 
 srun singularity exec --nv /home/bortoletti/jojogan-container.sif activate jojo
 
-srun singularity exec --nv /home/bortoletti/jojogan-container.sif python main.py 
+srun singularity exec --nv /home/bortoletti/jojogan-container.sif python main-create-own-style.py --iter=1000 --alpha=0.5 --testimagename='nm0001458_rm1350802176_1926-4-30_2007.jpg' --stylenames='0_85.jpg,3_212.jpg,5_300.jpg,10_286.jpg' --checkpointout='test_ckpt'
+
+#srun singularity exec --nv /home/bortoletti/jojogan-container.sif python main.py --modelname='test_ckpt' --testimagename='nm0001458_rm1350802176_1926-4-30_2007.jpg'
+
+
+
