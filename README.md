@@ -34,6 +34,13 @@ conda create -n jojo python=3.7
 conda activate jojo
 ```
 
+Otherwise, download the Anaconda [environment](https://github.com/bortoletti-giorgia/JoJoGAN-Windows/blob/main/extra/environment.yml) and go directly to the Final Step.
+
+```sh
+conda env create -f environment.yml
+conda activate jojo
+```
+
 ### Step 2
 Install Pytorch related.
 ```sh
