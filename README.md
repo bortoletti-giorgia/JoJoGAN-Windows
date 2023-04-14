@@ -156,25 +156,33 @@ Your workspace structure should be (“bortoletti” is the example workspace):
 
 ```
     \home\bortoletti
-    ├── JoJoGAN                           # clone of https://github.com/mchong6/JoJoGAN 
+    ├── JoJoGAN                           # clone of https://github.com/bortoletti-giorgia/JoJoGAN-Windows
     ├── ├── inversion_codes               # folder created after execution of main.py
     ├── ├── style_images                  # folder created after execution of main.py
     ├── ├── style_images_aligned          # folder created after execution of main.py
-    ├── ├── models                        # folder created after execution of main.py
+    ├── ├── models                        # folder containing pretrained models
     ├── ├── results                       # folder created after execution of main.py
     ├── ├──  main.py                      # main code to run JoJoGAN with pretrained model
     ├── ├──  main-create-own-style.py     # main code to create a model with your style images 
 
     ├── out                               # folder with TXT file with errors and shell output of main.job 
     │   main.job                          # JOB file for running JoJoGAN 
-    │   singularity-container.sif         # Singularity container for executing the job file
+    │   singularity-container.sif         # Singularity container for executing the JOB file
 ```
 
+In the *models* folder, there is already *dlibshape_predictor_68_face_landmarks.dat* used to find faces in images. It is recommended to use and place in *models* folder the pretrained models *e4e_ffhq_encode.pt* and *stylegan2-ffhq-config-f.pt*. They can be downloaded using the first lines of *main-create-own-style.py* of using *stylize.ipynb*.
+
+*dlibshape_predictor_68_face_landmarks.dat* was downloaded using (in Linux):
+```
+wget http://dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2
+bzip2 -dk shape_predictor_68_face_landmarks.dat.bz2
+mv shape_predictor_68_face_landmarks.dat models/dlibshape_predictor_68_face_landmarks.dat
+```
 
 Open PuTTY and write: ```sbatch main.job```. Now 
 At the end you can find in folder:
 * *./out*: one TXT file with a list of errors and one TXT file with output of the job;
-*	*/JoJoGAN/results*: images resulted from main.py.
+*	*/JoJoGAN/results*: images resulted from *main.py* or *main-create-own-style.py*.
 
 
 
